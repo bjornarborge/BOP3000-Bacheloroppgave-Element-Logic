@@ -25,10 +25,14 @@
         <button type="button" @onclick="Discard" class="btn btn-warning">@DiscardLabel</button>
         <button type="button" @onclick="Save" class="btn btn-success">@SaveLabel</button>
     </div>
-    @if (DeleteButton)
-    {
-        <button type="button" @onclick="Delete" class="btn btn-danger align-self-lg-start align-self-stretch">Delete</button>
-    }
+    <div class="d-flex my-3 justify-content-between">
+        <button type="button" @onclick="Upload" class="btn btn-secondary">@UploadPhoto</button>
+        @if (DeleteButton)
+        {
+            <button type="button" @onclick="Delete" class="btn btn-danger">Delete</button>
+        }
+
+    </div>
 </form>
 
 @code {
@@ -43,6 +47,9 @@
 
     [Parameter]
     public bool DeleteButton { get; set; } = false;
+
+    [Parameter]
+    public string UploadPhoto { get; set; } = "";
 
     [Parameter]
     public string Title { get; set; } = "";
@@ -91,6 +98,11 @@
     private void Delete()
     {
         OnDelete.InvokeAsync();
+    }
+
+    private void Upload()
+    {
+        NavigationManager.NavigateTo("/productpage");
     }
 
 }

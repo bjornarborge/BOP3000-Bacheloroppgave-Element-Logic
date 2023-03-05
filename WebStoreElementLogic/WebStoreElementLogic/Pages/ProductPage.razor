@@ -68,6 +68,7 @@ else
                     <ProductForm 
                         Title="Edit product"
                         SaveLabel="Save changes"
+                        UploadPhoto="Upload Photo"
                         DiscardLabel="Discard changes"
                         DeleteButton
                         Info="FilteredProducts[SelectedIndex]"
@@ -82,6 +83,7 @@ else
                     <ProductForm 
                         Title="Add new product"
                          SaveLabel="Add"
+                         UploadPhoto="Upload Photo"
                          DiscardLabel="Cancel"
                          Info="newInfo"
                          Copy="(Product) newInfo.Clone()"
@@ -205,6 +207,20 @@ else
         AddNew = false;
         StateHasChanged();
     }
+
+    // Method for uploading a photo to imageshack API when the button for "Upload Photo" is clicked
+    // First choose the image from the computer, then upload it to the API and get the link to the image
+    // Then set the image link to the product image link
+    private async Task UploadPhoto(Product product)
+    {
+        var file = await fileReaderService.CreateReference(fileInput).EnumerateFilesAsync();
+        var fileReference = file.FirstOrDefault();
+        var fileContent = await fileReference.ReadAsync();
+        var fileContentBase64 = Convert.ToBase64String(fileContent);
+        var imageLink = await imageService.UploadImage(fileContentBase64);
+        product.ImageLink = imageLink;
+    }
+
 
 }
 
